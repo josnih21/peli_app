@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:peli_app/src/widgets/card_swiper_widget.dart';
 import 'package:peli_app/src/providers/films_providers.dart';
+import 'package:peli_app/src/widgets/movie_horizontal.dart';
 
 class HomePage extends StatelessWidget {
   final filmsProvider = new FilmsProvider();
 
   @override
   Widget build(BuildContext context) {
+    filmsProvider.getPopular();
     return Scaffold(
       appBar: AppBar(
         title: Text('Peliculas cine'),
@@ -46,15 +48,16 @@ class HomePage extends StatelessWidget {
     return Container(
         width: double.infinity,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text('Populares', style: Theme.of(context).textTheme.subhead),
-            FutureBuilder(
-              future: filmsProvider.getPopular(),
+            StreamBuilder(
+              stream: filmsProvider.popularsStream,
               builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
                 if(snapshot.hasData){
-                  
-                return Container(
-                );
+                return MovieHorizontal(films: snapshot.data, nextPage: filmsProvider.getPopular);
+                }else{
+                  return CircularProgressIndicator();
                 }
               },
             ),
