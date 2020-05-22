@@ -72,6 +72,18 @@ class Film {
       }else{
         return 'https://image.tmdb.org/t/p/w500/$posterPath';
       }
+
+      
+    }
+
+    getBackgroundImg(){
+      if(posterPath == null){
+        return 'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101028/112815904-stock-vector-no-image-available-icon-flat-vector-illustration.jpg?ver=6';
+      }else{
+        return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+      }
+
+      
     }
 }
 
