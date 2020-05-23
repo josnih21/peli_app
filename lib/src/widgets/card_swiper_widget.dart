@@ -17,13 +17,22 @@ class CardSwiper extends StatelessWidget {
         itemHeight: _screenSize.height * 0.5,
         layout: SwiperLayout.STACK,
         itemBuilder: (BuildContext context, int index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/loading.gif'), 
-              image: NetworkImage(films[index].getPosterImg()),
-              fit: BoxFit.cover
-            )
+          films[index].uniqueId = '${films[index].id}-tarjeta';
+          return Hero(
+            tag: films[index].uniqueId,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context,'detail',arguments: films[index]);
+                },
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/loading.gif'), 
+                  image: NetworkImage(films[index].getPosterImg()),
+                  fit: BoxFit.cover
+                ),
+              )
+            ),
           );
         },
         itemCount: films.length,
