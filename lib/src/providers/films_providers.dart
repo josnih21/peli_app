@@ -36,7 +36,7 @@ class FilmsProvider{
     return films.items;
   }
   
-  Future <List<Film>>getNowPlaying() async{
+  Future <List<Film>> getNowPlaying() async{
     final url = Uri.https(_url, '3/movie/now_playing',{
       'api_key' : _apikey,
       'language' : _language  
@@ -45,7 +45,7 @@ class FilmsProvider{
     return await _processResponse(url);
   }
   
-  Future<List<Film>>getPopular() async{
+  Future<List<Film>> getPopular() async{
       if(_charging) return [];
       _charging = true;
       _popularsPage++;
@@ -64,6 +64,7 @@ class FilmsProvider{
   }
 
   Future<List<Actor>> getCast(String peliId) async{
+
     final url = Uri.https(_url, '3/movie/$peliId/credits',{
       'api_key' : _apikey,
       'language' : _language
@@ -74,5 +75,15 @@ class FilmsProvider{
     final casting = new Actors.fromJsonList(decodedData['cast']);
 
     return casting.items;
+  }
+
+  Future <List<Film>> searchFilm(String query) async{
+    final url = Uri.https(_url, '3/search/movie',{
+      'api_key' : _apikey,
+      'language': _language,
+      'query'   : query 
+    });
+
+    return await _processResponse(url);
   }
 }
